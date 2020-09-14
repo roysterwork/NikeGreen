@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>9/14</title>
+  </head>
+  <body>
+    <img src="nikeGreen.png" alt="">
+    <br>
+    <br>
+    <button onclick="DrawCircles(myData)">2018</button>
+    <button onclick="DrawCircles(myData2)">2019</button>
+    <button onclick="DrawCircles(myData3)">2020</button>
+   
+    <br>
+
+    <style>
+      p{
+        color: yellowgreen;
+      }
+
+      body{
+
+        background: yellowgreen;
+
+
+      }
+
+      img{
+
+        width: 250px;
+        height:200px;
+
+      }
+
+      button{
+
+        color:white;
+        background-color: orange;
+        font-size:20px;
+      }
+    </style>
+
+    <script>
+      // SVG
+      var width=700;
+      var height=500;
+
+      var svg = d3.select("body").append("svg")
+      .attr("width",width)
+      .attr("height",height)
+      .style("background","yellowgreen");
+
+      // Data
+      var myData=[20,40,60,80];
+      var myData2=[10,20,30];
+      var myData3= [10,30,50,20,30,30];
+
+      var colorScale=d3.scaleLinear().domain([0,80])
+      .range(["white","orange"]);
+
+      function DrawCircles(data){
+        var t=d3.transition().duration(1000);
+
+        // Join
+        var circle=svg.selectAll("circle").data(data);
+
+        // EXIT
+        circle.exit().transition(t).attr("r",0).
+        remove()
+
+        // Update
+
+        circle
+        
+        .attr("cx",function(d,i){return i*150+50;})
+        .attr("cy",150)
+       
+        .transition(t)
+        .style("fill",function(d){return colorScale(d);})
+        .attr("r",function(d){return d;});
+
+
+        // Enter
+
+        circle.enter().append("circle")
+        
+        .attr("cx",function(d,i){return i*150+50;})
+        .attr("cy",150)
+        .attr("r",0)
+        .transition(t)
+        .style("fill",function(d){return colorScale(d);})
+        .attr("r",function(d){return d;});
+
+
+      }
+
+
+    </script>
+
+  </body>
+</html>
